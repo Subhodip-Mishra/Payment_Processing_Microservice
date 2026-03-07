@@ -14,8 +14,9 @@ beforeEach(() => {
 describe('calculateFee', () => {
   test('returns correct fee for a $100 transaction — expected $3.20', () => {
     // 2.9% of $100 = $2.90  +  $0.30 fixed  =  $3.20
+    // 👁️  HUMAN-ERROR CATCH: if this fails with 290.30, PLATFORM_FEE_RATE is a whole number (2.9) not a decimal (0.029)
     const fee = calculateFee(100);
-    expect(fee).toBe(3.20);  // BUG: PLATFORM_FEE_RATE = 2.9 returns 290.30 instead
+    expect(fee).toBe(3.20);
   });
 
   test('returns correct fee for a $50 transaction — expected $1.75', () => {
@@ -47,8 +48,8 @@ describe('processPayment', () => {
     const payment = await processPayment(1, 100, 'usd', 'Test charge');
     expect(payment.status).toBe('completed');
     expect(payment.amount).toBe(100);
-    expect(payment.fee).toBe(3.20);       // BUG: will receive 290.30
-    expect(payment.netAmount).toBe(96.80); // BUG: will receive -190.30
+    expect(payment.fee).toBe(3.20);        // 👁️  if this is 290.30 → PLATFORM_FEE_RATE is 2.9 not 0.029
+    expect(payment.netAmount).toBe(96.80);  // 👁️  if this is negative → fee rate is wrong (human error)
   });
 
   test('attaches userId and description to payment record', async () => {
