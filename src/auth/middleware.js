@@ -1,4 +1,3 @@
-'use strict';
 
 const { verifyToken } = require('./jwt.service');
 

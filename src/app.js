@@ -10,7 +10,6 @@ const app = express();
 
 app.use(express.json());
 
-// ── Health ─────────────────────────────────────────────────────────────────
 
 app.get('/health', (req, res) => {
   res.json({
@@ -21,12 +20,9 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ── Auth ───────────────────────────────────────────────────────────────────
 
 app.post('/api/auth/register', register);
 app.post('/api/auth/login', login);
-
-// ── Users ──────────────────────────────────────────────────────────────────
 
 app.get('/api/users', authenticate, listUsers);
 
