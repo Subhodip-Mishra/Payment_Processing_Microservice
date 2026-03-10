@@ -12,8 +12,6 @@ const app = express();
 
 app.use(express.json());
 
-// Health check endpoint
-
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -23,7 +21,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Authentication routes
 app.post('/api/auth/register', register);
 app.post('/api/auth/login', login);
 
