@@ -29,9 +29,8 @@ const createUser = async (userData) => {
   return { ...user };
 };
 
-// ── Payments ───────────────────────────────────────────────────────────────
-
 const getPayments = async () => [...db.payments];
+
 
 const getPaymentsByUser = async (userId) =>
   db.payments.filter((p) => p.userId === userId);
