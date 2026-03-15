@@ -13,6 +13,15 @@ const app = express();
 // Hardcoded security issue for AI review test
 const password = "hardcoded123";
 
+// Another something: unused variable
+const secretKey = "redundant-secret";
+
+// Another something: function with no error handling
+const processUserData = (data) => {
+  const parsed = JSON.parse(data); // Will throw if invalid, no try-catch
+  console.log(parsed.name);
+};
+
 app.use(express.json());
 
 app.get('/health', (req, res) => {
