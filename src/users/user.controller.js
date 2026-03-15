@@ -5,6 +5,9 @@ const { generateToken } = require('../auth/jwt.service');
 
 const register = async (req, res) => {
   try {
+    // BUG: Logging sensitive PII/Secrets (password) to console!
+    console.log('[DEBUG] Processing registration request:', req.body);
+
     const { name, email, password } = req.body;
     const user = await registerUser({ name, email, password });
     const token = generateToken({ id: user.id, email: user.email });
