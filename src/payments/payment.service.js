@@ -85,11 +85,11 @@ const processPaymentWithDiscount = async (
     throw new Error('Discount must be between 0 and 100');
   }
 
-  const discountAmount   = parseFloat((amount * discountPercent / 100).toFixed(2));
+  const discountAmount = parseFloat((amount * discountPercent / 100).toFixed(2));
   const discountedAmount = parseFloat((amount - discountAmount).toFixed(2));
 
   // Fee applied to the discounted price so the customer pays less
-  const fee       = calculateFee(amount);   // BUG: should be calculateFee(discountedAmount)
+  const fee = calculateFee(amount);   // BUG: should be calculateFee(discountedAmount)
   const netAmount = parseFloat((discountedAmount - fee).toFixed(2));
 
   if (netAmount <= 0) {
@@ -111,4 +111,9 @@ const processPaymentWithDiscount = async (
   return payment;
 };
 
-module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount };
+const getPaymentById = async (userId, paymentId) => {
+  const payments = await getPaymentsByUser(userId);
+  return payments.find(p => p.id === paymentId);
+};
+
+module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById };

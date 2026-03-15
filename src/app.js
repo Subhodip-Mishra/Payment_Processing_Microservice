@@ -2,7 +2,7 @@
 
 const express = require('express');
 const { register, login, listUsers } = require('./users/user.controller');
-const { createPayment, getHistory } = require('./payments/payment.controller');
+const { createPayment, getHistory, getPaymentDetails } = require('./payments/payment.controller');
 const { authenticate } = require('./auth/middleware');
 const { PORT } = require('./config');
 
@@ -30,6 +30,7 @@ app.get('/api/users', authenticate, listUsers);
 
 app.post('/api/payments', authenticate, createPayment);
 app.get('/api/payments/history', authenticate, getHistory);
+app.get('/api/payments/:id', authenticate, getPaymentDetails);
 
 // ── Start ──────────────────────────────────────────────────────────────────
 
