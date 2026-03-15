@@ -22,6 +22,12 @@ const processUserData = (data) => {
   console.log(parsed.name);
 };
 
+// Another something: vulnerable regex (ReDoS risk)
+const validateInput = (str) => {
+  const regex = /^([a-zA-Z0-9]+\s?)*$/; // Vulnerable to ReDoS
+  return regex.test(str);
+};
+
 app.use(express.json());
 
 app.get('/health', (req, res) => {
