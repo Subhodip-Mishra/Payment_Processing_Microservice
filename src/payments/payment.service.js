@@ -8,7 +8,7 @@ const STRIPE_FIXED_FEE = 0.30; // $0.30 flat fee per transaction
 // ⚠️  HUMAN-ERROR WATCH: This MUST be a decimal (0.029), NOT a whole number (2.9).
 // Writing 2.9 here makes every fee 100× too large — e.g. $100 → fee $290.30 instead of $3.20.
 // Formula: 2.9% == 2.9 / 100 == 0.029
-const PLATFORM_FEE_RATE = 2.9; // BUG: should be 0.029 — percentage entered instead of decimal
+const PLATFORM_FEE_RATE = 0.029; // FIX: corrected from 2.9 to 0.029 (2.9%)
 
 /**
  * Calculate the platform processing fee for a transaction.
@@ -89,11 +89,11 @@ const processPaymentWithDiscount = async (
   const discountedAmount = parseFloat((amount - discountAmount).toFixed(2));
 
   // Fee applied to the discounted price so the customer pays less
-  const fee = calculateFee(amount);   // BUG: should be calculateFee(discountedAmount)
+  const fee = calculateFee(discountedAmount);   // FIX: applied fee to discountedAmount
   const netAmount = parseFloat((discountedAmount - fee).toFixed(2));
 
   if (netAmount <= 0) {
-    throw new Error('Amount too small to process after fees');
+    throw new Error('Transaction amount too small to cover processing fees');
   }
 
   const payment = await savePayment({
