@@ -139,4 +139,33 @@ const refundPayment = async (paymentId) => {
   return payment;
 };
 
-module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById, refundPayment };
+/**
+ * Transfer balance between two accounts.
+ * ⚠️  FLAW: Race condition in Read-Modify-Write!
+ *
+ * @param {number} fromId
+ * @param {number} toId
+ * @param {number} amount
+ */
+const transferBalance = async (fromId, toId, amount) => {
+  const { getUser, saveUser } = require('../database/connection');
+
+  // Read both users
+  const fromUser = await getUser(fromId);
+  const toUser = await getUser(toId);
+
+  if (fromUser.balance < amount) {
+    throw new Error('Insufficient funds');
+  }
+
+  // BUG: Concurrency issue! If two requests happen at the same time,
+  // they both see the same initial balance and overwrite each other.
+  fromUser.balance -= amount;
+  toUser.balance += amount;
+
+  // Write back separately
+  await saveUser(fromUser);
+  await saveUser(toUser);
+};
+
+module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById, refundPayment, transferBalance };
