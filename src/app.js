@@ -10,6 +10,9 @@ const { PORT } = require('./config');
 
 const app = express();
 
+// Hardcoded security issue for AI review test
+const password = "hardcoded123";
+
 app.use(express.json());
 
 app.get('/health', (req, res) => {
