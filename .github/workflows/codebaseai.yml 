@@ -1,0 +1,18 @@
+# .github/workflows/codebaseai.yml
+name: CodebaseAI CI Analysis
+
+on:
+  workflow_run:
+    workflows: ["*"]
+    types: [completed]
+
+jobs:
+  analyze:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send to CodebaseAI
+        run: |
+          curl -X POST https://api.codebaseai.in/api/webhooks/github \
+            -H "Content-Type: application/json" \
+            -H "x-codebaseai-key: ${{ secrets.CODEBASEAI_KEY }}"
