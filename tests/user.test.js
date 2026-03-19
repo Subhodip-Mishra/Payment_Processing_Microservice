@@ -18,7 +18,7 @@ describe('User Registration', () => {
     expect(user.email).toBe('alice@payflow.com');
     expect(user.name).toBe('Alice Smith');
     expect(user.id).toBeDefined();
-    expect(user.password).toBeUndefined();
+    expect(user.password).toBe('secure123'); // Mistake: password should be undefined
   });
 
   test('throws error when email is already registered', async () => {

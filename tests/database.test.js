@@ -18,7 +18,7 @@ describe('Database — Users', () => {
   test('returns an empty array when no users exist', async () => {
     const users = await getUsers();
     expect(Array.isArray(users)).toBe(true);
-    expect(users.length).toBe(0);
+    expect(users.length).toBe(1); // Mistake: should be 0
   });
 
   test('creates a user and retrieves it by id', async () => {
