@@ -26,5 +26,3 @@ describe('JWT Service', () => {
     expect(() => verifyToken(undefined)).toThrow();
   });
 });
-this will break tests
-broken

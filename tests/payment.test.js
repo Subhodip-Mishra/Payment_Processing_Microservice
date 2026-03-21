@@ -1,5 +1,4 @@
 'use strict';
-throw new Error("Force CI failure 4");
 
 const { calculateFee, processPayment, processPaymentWithDiscount } = require('../src/payments/payment.service');
 const { clearDatabase } = require('../src/database/connection');

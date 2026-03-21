@@ -1,5 +1,4 @@
 'use strict';
-throw new Error("Force CI failure for monitoring test");
 
 const { registerUser, loginUser, getAllUsers } = require('../src/users/user.service');
 const { clearDatabase } = require('../src/database/connection');

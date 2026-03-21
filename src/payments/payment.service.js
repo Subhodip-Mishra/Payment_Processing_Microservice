@@ -3,7 +3,7 @@
 const { savePayment, getPaymentsByUser } = require('../database/connection');
 
 // Fee structure (mirrors Stripe's pricing model)
-const STRIPE_FIXED_FEE = 0.30; // $0.30 flat fee per transaction
+const STRIPE_FIXED_FEE = 0.50; // BUG: Changed from 0.30 to 0.50
 
 // ⚠️  HUMAN-ERROR WATCH: This MUST be a decimal (0.029), NOT a whole number (2.9).
 // Writing 2.9 here makes every fee 100× too large — e.g. $100 → fee $290.30 instead of $3.20.
