@@ -25,6 +25,8 @@ jobs:
           API_KEY: ${{ secrets.CODEBASEAI_KEY }}
         run: |
           curl -X POST https://api.codebaseai.in/api/webhooks/github \
+            --max-time 30 \
             -H "Content-Type: application/json" \
+            -H "x-github-event: workflow_run" \
             -H "x-codebaseai-key: $API_KEY" \
             -d "{\"action\":\"completed\",\"workflow_run\":{\"id\":\"$RUN_ID\",\"name\":\"$RUN_NAME\",\"conclusion\":\"$CONCLUSION\",\"head_sha\":\"$HEAD_SHA\",\"head_branch\":\"$HEAD_BRANCH\"},\"repository\":{\"full_name\":\"$REPO\",\"name\":\"$REPO_NAME\",\"private\":$IS_PRIVATE,\"default_branch\":\"$DEFAULT_BRANCH\",\"owner\":{\"login\":\"$OWNER\"}}}"
