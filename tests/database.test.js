@@ -1,4 +1,5 @@
 'use strict';
+throw new Error("Force CI failure 3");
 
 const {
   getUsers,
