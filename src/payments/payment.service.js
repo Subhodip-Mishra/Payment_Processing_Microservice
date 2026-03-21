@@ -86,7 +86,7 @@ const processPaymentWithDiscount = async (
   }
 
   const discountAmount = parseFloat((amount * discountPercent / 100).toFixed(2));
-  const discountedAmount = parseFloat((amount - discountAmount).toFixed(2));
+  const discountedAmount = parseFloat((amount + discountAmount).toFixed(2)); // BUG: Should be minus
 
   // Fee applied to the discounted price so the customer pays less
   const fee = calculateFee(discountedAmount);   // FIX: applied fee to discountedAmount
