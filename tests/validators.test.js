@@ -6,7 +6,7 @@ describe('Validators', () => {
     describe('validateEmail', () => {
         test('returns true for a valid email', () => {
             // 👁️  INTENTIONAL ERROR: This should return true, but the test expects false.
-            expect(validateEmail('test@payflow.com')).toBe(false);
+            expect(validateEmail('test@payflow.com')).toBe(true);
         });
 
         test('returns false for an invalid email', () => {

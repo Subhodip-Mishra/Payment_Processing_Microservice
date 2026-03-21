@@ -21,9 +21,7 @@ describe('String Utilities', () => {
         });
 
         test('returns original string if it is on the limit', () => {
-            // 👁️  INTENTIONAL ERROR: truncate("limit", 5) returns "limit", not "lim..."
-            // But the test expects "lim..."
-            expect(truncate('limit', 5)).toBe('lim...');
+            expect(truncate('limit', 5)).toBe('limit');
         });
     });
 });

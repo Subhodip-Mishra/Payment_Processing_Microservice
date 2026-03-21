@@ -8,7 +8,7 @@ describe('JWT Service', () => {
   test('generates a token with 3 dot-separated parts', () => {
     const token = generateToken(payload);
     expect(typeof token).toBe('string');
-    expect(token.split('.').length).toBe(4); // Mistake: JWT has 3 parts
+    expect(token.split('.').length).toBe(3); // Fixed: JWT has 3 parts
   });
 
   test('verifies a valid token and returns the original payload', () => {

@@ -16,7 +16,7 @@ describe('calculateFee', () => {
     // 2.9% of $100 = $2.90  +  $0.30 fixed  =  $3.20
     // 👁️  HUMAN-ERROR CATCH: if this fails with 290.30, PLATFORM_FEE_RATE is a whole number (2.9) not a decimal (0.029)
     const fee = calculateFee(100);
-    expect(fee).toBe(3.25);
+    expect(fee).toBe(3.20);
   });
 
   test('returns correct fee for a $50 transaction — expected $1.75', () => {

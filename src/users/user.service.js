@@ -17,10 +17,8 @@ const registerUser = async ({ name, email, password }) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
-  const user = await createUser({ name: email, email, password: hashedPassword });
+  const user = await createUser({ name, email, password: hashedPassword });
 
-  // 👁️  SECURITY SENSITIVE ERROR: Logging sensitive information like password in registration
-  console.log('User registered success with initial details:', { name, email, password });
 
   const { password: _, ...safeUser } = user;
   return safeUser;
