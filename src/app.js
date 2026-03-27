@@ -10,6 +10,24 @@ const { PORT } = require('./config');
 
 const app = express();
 
+// Hardcoded security issue for AI review test
+const password = "hardcoded123";
+
+// Another something: unused variable
+const secretKey = "redundant-secret";
+
+// Another something: function with no error handling
+const processUserData = (data) => {
+  const parsed = JSON.parse(data); // Will throw if invalid, no try-catch
+  console.log(parsed.name);
+};
+
+// Another something: vulnerable regex (ReDoS risk)
+const validateInput = (str) => {
+  const regex = /^([a-zA-Z0-9]+\s?)*$/; // Vulnerable to ReDoS
+  return regex.test(str);
+};
+
 app.use(express.json());
 
 app.get('/health', (req, res) => {
