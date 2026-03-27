@@ -116,4 +116,56 @@ const getPaymentById = async (userId, paymentId) => {
   return payments.find(p => p.id === paymentId);
 };
 
-module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById };
+/**
+ * Refund a payment to a user.
+ * ⚠️  FLAW: Missing check for existing refund status!
+ *
+ * @param {number} paymentId
+ * @returns {Object} Updated payment record
+ */
+const refundPayment = async (paymentId) => {
+  const { getPayment, savePayment } = require('../database/connection');
+  const payment = await getPayment(paymentId);
+  if (!payment) {
+    throw new Error('Payment not found');
+  }
+
+  // BUG: We should check if (payment.status === 'refunded') here!
+  // Without this check, multiple refunds can be issued for the same amount.
+
+  payment.status = 'refunded';
+  await savePayment(payment);
+
+  return payment;
+};
+
+/**
+ * Transfer balance between two accounts.
+ * ⚠️  FLAW: Race condition in Read-Modify-Write!
+ *
+ * @param {number} fromId
+ * @param {number} toId
+ * @param {number} amount
+ */
+const transferBalance = async (fromId, toId, amount) => {
+  const { getUser, saveUser } = require('../database/connection');
+
+  // Read both users
+  const fromUser = await getUser(fromId);
+  const toUser = await getUser(toId);
+
+  if (fromUser.balance < amount) {
+    throw new Error('Insufficient funds');
+  }
+
+  // BUG: Concurrency issue! If two requests happen at the same time,
+  // they both see the same initial balance and overwrite each other.
+  fromUser.balance -= amount;
+  toUser.balance += amount;
+
+  // Write back separately
+  await saveUser(fromUser);
+  await saveUser(toUser);
+};
+
+module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById, refundPayment, transferBalance };
