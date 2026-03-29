@@ -116,4 +116,27 @@ const getPaymentById = async (userId, paymentId) => {
   return payments.find(p => p.id === paymentId);
 };
 
-module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById };
+/**
+ * Refund a payment to a user.
+ * ⚠️  FLAW: Missing check for existing refund status!
+ *
+ * @param {number} paymentId
+ * @returns {Object} Updated payment record
+ */
+const refundPayment = async (paymentId) => {
+  const { getPayment, savePayment } = require('../database/connection');
+  const payment = await getPayment(paymentId);
+  if (!payment) {
+    throw new Error('Payment not found');
+  }
+
+  // BUG: We should check if (payment.status === 'refunded') here!
+  // Without this check, multiple refunds can be issued for the same amount.
+
+  payment.status = 'refunded';
+  await savePayment(payment);
+
+  return payment;
+};
+
+module.exports = { calculateFee, processPayment, getPaymentHistory, processPaymentWithDiscount, getPaymentById, refundPayment };
