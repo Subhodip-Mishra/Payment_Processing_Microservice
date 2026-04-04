@@ -12,6 +12,12 @@ const app = express();
 
 app.use(express.json());
 
+// 👁️  HUMAN ERROR: Debug logging middleware that logs ALL request bodies (sensitive!)
+app.use((req, res, next) => {
+  console.log(`[DEBUG] Received ${req.method} request to ${req.url}:`, JSON.stringify(req.body));
+  next();
+});
+
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
